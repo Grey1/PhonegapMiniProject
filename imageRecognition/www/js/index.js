@@ -54,6 +54,14 @@ var clearCache = function () {
 var retries = 0;
 
 
+//code to upload a file from 
+$("#fileSelect").on("change",function(e){
+    e.preventDefault();
+    app.CaptureFile();
+    $(form).submit();
+});
+
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -91,7 +99,25 @@ var app = {
         
         navigator.camera.getPicture(onSuccess, onFail, { quality: 50, 
             destinationType: Camera.DestinationType.FILE_URI }); 
+    },
+
+    CaptureFile: function(){
+        function win(file) {
+            var reader = new FileReader();
+            reader.onloadend = function(evt) {
+                console.log("read success");
+                console.log(evt.target.result);
+            };
+            reader.readAsDataURL(file);
+        };
+
+    var fail = function(evt) {
+        console.log(error.code);
+    };
+
+        entry.file(win, fail);
     }
+
 
 };
 
